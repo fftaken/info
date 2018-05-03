@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #titleWidth {
+            padding: 0;
+            font-size: 11px;
+        }
+        #contentWidth {
+            padding: 0;
+            font-size: 9px;
+        }
+        webview {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <webview disablewebsecurity id="webview" preload="./refreshPreload.js"></webview>
+    <span id="contentWidth"></span>
+    <span id="titleWidth"></span>
+</body>
+<script type="text/javascript">
+    const {ipcRenderer} = require('electron')
+    const webview = document.querySelector('webview');
+    
+    let config = {};
+    let intervalTimer = null;
+
+    ipcRenderer.on('refreshConfig', (event, arg) => {
+        if (arg) {
+            config = arg;
+            webview.src = config.url;
+        }
+    });
+    webview.addEventListener('did-finish-load', () => {
+        // webview.openDevTools()
+        getInfo()
+    });
+    ipcRenderer.on('getInfo', (message) => {
+        setTimeout(getInfo, 2000);
+    });
+    
+    webview.addEventListener('ipc-message', (event) => {
+        generateInfoImg(event.channel);
+    });
+
+    const titleWidth = document.querySelector('#titleWidth')
+    const contentWidth = document.querySelector('#contentWidth')
+
+    function generateInfoImg(content) {
+        let canvas = document.createElement('canvas');
+        canvas.height = 18;
+        canvas.width = 50;
+        let ctx = canvas.getContext('2d');
+        contentWidth.innerText = content;
+        titleWidth.innerText = config.title;
+        let factWidth = titleWidth.offsetWidth > contentWidth.offsetWidth ? titleWidth.offsetWidth : contentWidth.offsetWidth;
+        factWidth = factWidth > 100 ? 100 : factWidth + 2;
+        
+        canvas.width = factWidth;
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0)';
+        ctx.fillRect(0, 0, factWidth, 18);
+        ctx.fillStyle = "#000";
+        ctx.font = 'bold 10px 微软雅黑';
+        ctx.fillText(config.title, 0, 8);
+        ctx.font = '10px 微软雅黑';
+        ctx.fillText(content, 0, 17);
+        let dataImg = canvas.toDataURL("image/png");
+        ipcRenderer.send('refreshData', dataImg);
+    }
+
+    function getInfo() {
+        webview.send('selector', config.selector)
+    }
+</script>
+</html>

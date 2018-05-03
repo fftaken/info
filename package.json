@@ -1,0 +1,31 @@
+{
+  "name": "important",
+  "version": "1.0.0",
+  "description": "this is a application about auto refresh info on OS tray",
+  "main": "main.js",
+  "productName": "info",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "fftaken",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.8.6",
+    "electron-builder": "^20.11.1"
+  },
+  "build": {
+    "appId": "eB4ED4f3cd31581D",
+    "mac": {
+      "category": "fftaken.app.os"
+    },
+    "extraResources": [
+      {
+        "from": "./assets/images",
+        "to": "./assets/images"
+      }
+    ]
+  }
+}
