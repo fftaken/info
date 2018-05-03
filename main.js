@@ -5,6 +5,7 @@ const {
     BrowserWindow,
     BrowserView,
     nativeImage,
+    MenuItem,
 } = require('electron');
 const {ipcMain} = require('electron')
 const path = require('path');
@@ -16,6 +17,27 @@ let editWin = null;
 let refreshWin = null;
 
 app.dock.hide();
+
+const menu = new Menu()
+  
+  menu.append(new MenuItem({
+    label: 'Print',
+    accelerator: 'CmdOrCtrl+P',
+    click: () => { console.log('time to print stuff') }
+  },{
+    label: 'Copy',
+    accelerator: 'CmdOrCtrl+C',
+    click: () => { console.log('time to print stuff') }
+  },{
+    label: 'Paste',
+    accelerator: 'CmdOrCtrl+V',
+    click: () => { console.log('time to print stuff') }
+  },{
+    label: 'SelectAll',
+    accelerator: 'CmdOrCtrl+A',
+    click: () => { console.log('time to print stuff') }
+  }))
+  app.menu
 
 let baseMenu = [
     {label: '关于', type: 'normal', click: function() {
@@ -34,9 +56,29 @@ let menuSeparator = [
 let configList = [];
 let contextMenu = Menu.buildFromTemplate(baseMenu);
 
+let applicationMenuTemplate = [{
+    label: 'Edit',
+    submenu: [
+        {role: 'undo'},
+        {role: 'redo'},
+        {type: 'separator'},
+        {role: 'cut'},
+        {role: 'copy'},
+        {role: 'paste'},
+        {role: 'pasteandmatchstyle'},
+        {role: 'delete'},
+        {role: 'selectall'},
+    ],
+    },
+];
+
+//注册菜单  
+
 
 app.on('ready', () => {
-    refreshWin = new BrowserWindow({width: 0, height: 0, frame: false}); //product
+    Menu.setApplicationMenu(Menu.buildFromTemplate(applicationMenuTemplate));
+    
+    refreshWin = new BrowserWindow({width: 0, height: 0, frame: true}); //product
     // refreshWin = new BrowserWindow({width: 800, height: 600, frame: false});
     // refreshWin.webContents.openDevTools();
     refreshWin.on('closed', () => {
@@ -94,8 +136,9 @@ function refreshConfig(list) {
 
 function edit(index) {
     console.log(index);
-    editWin = new BrowserWindow({width: 1000, height: 800, frame: false});
+    editWin = new BrowserWindow({width: 1000, height: 800, frame: true});
     // editWin.webContents.openDevTools();
+    // editWin.setMenu(Menu.buildFromTemplate(applicationMenuTemplate));
     editWin.on('closed', () => {
         // editWin = null
     })
