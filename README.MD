@@ -1,10 +1,20 @@
 ## info
 ---
+### #[下载本软件](https://github.com/fftaken/info/releases)
 
-
+### #重要提醒
+```
+1.目前仅支持Mac OS
+2.信息展示有10个字符限制，所以超过长度的在页面上无法选择
+3.本软件在新增配置界面会劫持点击事件，所以可能无法在新增界面点击链接跳转到新页面
+```
 ### 关于
 ---
 info是一个放在系统托盘区域的一段简短信息，基于Electron实现
+
+---
+### 运行截图 
+![](./capture/1.png)![](./capture/2.png)![](./capture/3.png)![](./capture/4.png)
 
 ### 功能说明
 ---
@@ -21,7 +31,7 @@ info是一个放在系统托盘区域的一段简短信息，基于Electron实�
 预备开发的功能
 * 增加通过接口获取数据选项
 
-如果你有好的想法，可以[!告诉我](https://github.com/fftaken/info/issues)
+如果你有好的想法，可以[告诉我](https://github.com/fftaken/info/issues)
 ### 使用中出现问题？
 ---
 请在[这里](https://github.com/fftaken/info/issues)反馈问题

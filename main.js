@@ -5,7 +5,6 @@ const {
     BrowserWindow,
     BrowserView,
     nativeImage,
-    MenuItem,
 } = require('electron');
 const {ipcMain} = require('electron')
 const path = require('path');
@@ -17,27 +16,6 @@ let editWin = null;
 let refreshWin = null;
 
 app.dock.hide();
-
-const menu = new Menu()
-  
-  menu.append(new MenuItem({
-    label: 'Print',
-    accelerator: 'CmdOrCtrl+P',
-    click: () => { console.log('time to print stuff') }
-  },{
-    label: 'Copy',
-    accelerator: 'CmdOrCtrl+C',
-    click: () => { console.log('time to print stuff') }
-  },{
-    label: 'Paste',
-    accelerator: 'CmdOrCtrl+V',
-    click: () => { console.log('time to print stuff') }
-  },{
-    label: 'SelectAll',
-    accelerator: 'CmdOrCtrl+A',
-    click: () => { console.log('time to print stuff') }
-  }))
-  app.menu
 
 let baseMenu = [
     {label: '关于', type: 'normal', click: function() {
